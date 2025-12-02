@@ -1,4 +1,6 @@
 'use client'
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,19 +9,63 @@ export default function Home() {
   const [showForm, setShowForm] = useState(false);
   const router = useRouter();
 
+  function getField(labelText:string, placeholderText:string, typeInput:string = "text") {
+    return (
+      <div className="flex flex-col">
+        <label className="label">{labelText}</label>
+        <input
+          className="input"
+          type={typeInput}
+          placeholder={placeholderText}
+        />
+      </div>
+    ); 
+  }
+
   function cadastrarEntidade() {
     return (
       <>
-        <h1>Cadastro de Entidade</h1>
+        <div className="flex">
           <button
-            className="button"
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               setShowForm(false);
               router.push("/");
             }}
           >
-            Voltar à página inicial
+            <FontAwesomeIcon icon={faAngleLeft} style={{ color: "#ffffff" }} size="2xl" />
           </button>
+          <h2
+            className="font-bold text-4xl"
+          >
+            <span className="emphasis">Nova</span> Entidade
+          </h2>
+        </div>
+
+        <form>
+          {getField("Nome da Entidade", "nome")}
+          <div className="flex flex-col">
+            <label className="label">Campo de Atuação</label>
+            <select name="campoAtuacao" className="input">
+              <option>Selecione uma opção</option>
+              <option value="abrigoAnimais">Abrigo de Animais</option>
+              <option value="centroAlimentacao">Centro de Alimentação</option>
+              <option value="crecheAnimais">Creche de Animais</option>
+            </select>
+          </div>
+          {getField("Campo de Coleta", "campo de coleta")}
+        </form>
+
+        <button
+          style={{ cursor: 'pointer', width: '100%', margin: '50px 0 0 0' }}
+          className="button"
+          onClick={() => {
+            setShowForm(false);
+            router.push("/");
+          }}
+        >
+          Cadastrar
+        </button>
       </>
     );
   }
