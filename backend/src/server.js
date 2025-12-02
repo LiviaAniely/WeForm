@@ -1,5 +1,6 @@
 import express from "express";
-import { prisma } from "./db.js";
+import { createEntidade } from "./services/Entidade.js";
+import { createCampoAtuacao } from "./services/campoAtuacao.js";
 
 const app = express();
 const port = 4000;
@@ -15,15 +16,12 @@ app.get("/", (_req, res) => {
 app.post("/entidades", async (req, res) => {
   const { nome, campoDeAtuacaoId, campoDeColeta } = req.body;
 
-  // res.send("Rota para criar entidade ainda não implementada.");
   try {
-    const entidade = await prisma.entidade.create({
-      data: { nome, campoDeAtuacaoId, campoDeColeta },
-    });
+    const entidade = await createEntidade({ nome, campoDeAtuacaoId, campoDeColeta });
 
     res.json(entidade);
   } catch (err) {
-    res.status(400).json({ error: "Erro ao criar entidade", details: err });
+    res.status(400).json({ error: "Erro ao criar entidade", details: err.message || err });
   }
 });
 
@@ -32,30 +30,14 @@ app.post("/campo-de-atuacao", async (req, res) => {
   const { campo } = req.body;
 
   try {
-    const novo = await prisma.campoDeAtuacao.create({
-      data: { campo },
-    });
+    const novo = await createCampoAtuacao({ campo });
 
     res.json(novo);
   } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: "Erro ao criar CampoDeAtuacao",
-      details: err.message || err,
-    });
+    res.status(400).json({error: "Erro ao criar CampoDeAtuacao", details: err.message || err});
   }
 });
 
-// Listar entidades
-app.get("/entidades", async (_req, res) => {
-  // try {
-  //   const entidades = await prisma.entidade.findMany();
-  //   res.json(entidades);
-  // } catch (err) {
-  //   res.status(400).json({ error: "Erro ao listar entidades", details: err });
-  // }
-  res.send("Rota para listar entidades ainda não implementada.");
-});
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
