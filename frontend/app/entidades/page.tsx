@@ -2,12 +2,34 @@
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
+import { EntidadeDTO } from "@/types/entidade";
+import { useEffect, useState } from "react";
+import { getEntidade } from "@/services/EntidadeService";
 import './styles.css';
 
 export default function Entidade() { 
+  const [entidades, setEntidades] = useState<EntidadeDTO[]>([]);
   const router = useRouter();
 
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchData() {
+      const data = await getEntidade();
+      if (isMounted) {
+        setEntidades(data);
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   function getItemListagem(nomeEntidade:string, campoAtuacao:string) {
+    console.log('entidades: ', entidades)
     return (
       <>
         <div className="flex items-center justify-between">
