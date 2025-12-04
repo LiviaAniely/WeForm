@@ -1,7 +1,11 @@
 import { prisma } from "../db.js";
 
 export const getAllEntidade = async () => {
-  return await prisma.entidade.findMany();
+  return await prisma.entidade.findMany({
+    include: {
+      campoDeAtuacao: true, 
+    },
+  });
 }
 
 export const getEntidadeById = async (id) => {

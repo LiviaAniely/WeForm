@@ -28,11 +28,10 @@ export default function Entidade() {
     };
   }, []);
 
-  function getItemListagem(nomeEntidade:string, campoAtuacao:string) {
-    console.log('entidades: ', entidades)
+  function getItemListagem(idEntidade:number, nomeEntidade:string, campoAtuacao:string) {
     return (
       <>
-        <div className="flex items-center justify-between">
+        <div key={idEntidade} className="flex items-center justify-between">
           <span style={{ marginRight: '10px' }}>{nomeEntidade}</span>
           <h3>{campoAtuacao}</h3>
         </div>
@@ -40,6 +39,7 @@ export default function Entidade() {
       </>
     );
   }
+
   return (
     <>
       <div className="flex flex-col h-full items-center">
@@ -76,9 +76,9 @@ export default function Entidade() {
           </div>
 
           <div id="listagem">
-            {getItemListagem("Abrigo Vida Animal", "Abrigo de Animais")}
-            {getItemListagem("Nosso Prato", "Centro de Alimentação")}
-            {getItemListagem("Creche do Sol", "Creche Infantil")}
+           {entidades.map((entidade) => (
+              getItemListagem(entidade.id, entidade?.nome, entidade?.campoDeAtuacao?.campo)
+           ))}
           </div>
         </div>
       </div>
