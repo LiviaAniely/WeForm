@@ -1,6 +1,6 @@
 import express from "express";
 import { createEntidade, getAllEntidade } from "./services/Entidade.js";
-import { createCampoAtuacao } from "./services/campoAtuacao.js";
+import { createCampoAtuacao, getAllCampoAtuacao } from "./services/campoAtuacao.js";
 import cors from "cors";
 
 const app = express();
@@ -51,7 +51,17 @@ app.get("/api/entidade", async (_, res) => {
     console.log('entidades no servidor: ', entidades);
     res.json(entidades);
   } catch (err) {
-    res.status(400).json({ error: "Erro ao criar entidade", details: err.message || err });
+    res.status(400).json({ error: "Erro ao listar entidades", details: err.message || err });
+  }
+});
+
+// listar campos de atuação
+app.get("/api/campo-de-atuacao", async (_, res) => {
+  try {
+    const campos = await getAllCampoAtuacao();
+    res.json(campos);
+  } catch (err) {
+    res.status(400).json({ error: "Erro ao listar campos de atuação", details: err.message || err });
   }
 });
 
