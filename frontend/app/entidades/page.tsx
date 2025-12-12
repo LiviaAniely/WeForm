@@ -28,10 +28,10 @@ export default function Entidade() {
     };
   }, []);
 
-  function getItemListagem(idEntidade:number, nomeEntidade:string, campoAtuacao:string) {
+  function getItemListagem(nomeEntidade:string, campoAtuacao:string) {
     return (
       <>
-        <div key={idEntidade} className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <span style={{ marginRight: '10px' }}>{nomeEntidade}</span>
           <h3>{campoAtuacao}</h3>
         </div>
@@ -77,7 +77,7 @@ export default function Entidade() {
 
           <div id="listagem">
            {entidades.map((entidade) => (
-              getItemListagem(entidade.id, entidade?.nome, entidade?.campoDeAtuacao?.campo)
+              getItemListagem(entidade?.nome, entidade?.campoDeAtuacao?.campo)
            ))}
           </div>
         </div>
